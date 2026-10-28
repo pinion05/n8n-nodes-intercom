@@ -1,0 +1,26 @@
+{
+  "name": "n8n-nodes-intercom",
+  "version": "0.2.0",
+  "description": "pi-intercom HTTP 게이트웨이(intercom-web) 노드 — 살아있는 pi 세션 조회·메시지 주입",
+  "keywords": [
+    "n8n-community-node",
+    "pi",
+    "intercom"
+  ],
+  "license": "MIT",
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "nodes": [
+      "nodes/IntercomApi.node.js"
+    ]
+  },
+  "author": "pinion05",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pinion05/n8n-nodes-intercom.git"
+  },
+  "homepage": "https://github.com/pinion05/n8n-nodes-intercom",
+  "bugs": {
+    "url": "https://github.com/pinion05/n8n-nodes-intercom/issues"
+  }
+}
