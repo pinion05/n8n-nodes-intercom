@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-intercom",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "pi-intercom HTTP 게이트웨이(intercom-web) 노드 — 살아있는 pi 세션 조회·메시지 주입",
   "keywords": [
     "n8n-community-node",

@@ -18,6 +18,14 @@ function errText(e) {
 	return `${code}${String((e && e.message) || e).slice(0, 300)}`;
 }
 
+// 게이트웨이는 죽은 세션에도 HTTP 200 + {ok:true, delivered:false, reason:'Session not found'}를 준다
+// (2026-10-29 실측) — delivered:false면 ok:false로 매핑해야 후속 IF 분기가 $json.ok만 보고도 정확해진다
+function wrapSendResult(response) {
+	if (!response || typeof response !== 'object') return { ok: true, response };
+	const delivered = response.delivered;
+	return { ok: delivered !== false, delivered, ...response };
+}
+
 class IntercomApi {
 	constructor() {
 		this.description = {
@@ -157,7 +165,7 @@ class IntercomApi {
 				}
 				try {
 					const response = await this.helpers.httpRequest({ method: 'POST', url: `${baseUrl}/broadcast`, json: true, body: { text } });
-					results.push({ json: response && typeof response === 'object' ? { ok: true, ...response } : { ok: true, response } });
+					results.push({ json: wrapSendResult(response) });
 				} catch (e) {
 					results.push({ json: { ok: false, resource, operation, error: errText(e) } });
 				}
@@ -173,7 +181,7 @@ class IntercomApi {
 				}
 				try {
 					const response = await this.helpers.httpRequest({ method: 'POST', url: `${baseUrl}/send`, json: true, body: { to, text } });
-					results.push({ json: response && typeof response === 'object' ? { ok: true, ...response } : { ok: true, response } });
+					results.push({ json: wrapSendResult(response) });
 				} catch (e) {
 					results.push({ json: { ok: false, resource, operation, to, error: errText(e) } });
 				}
